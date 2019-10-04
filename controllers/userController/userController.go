@@ -1,8 +1,8 @@
 package userController
 
 import (
-	"app/models/userModel"
-	"app/utility/hash"
+	"golang-app/models/userModel"
+	"golang-app/utility/hash"
 
 	"fmt"
 	"net/http"
@@ -27,7 +27,7 @@ func (con *UserController) Login(e echo.Context) (err error) {
 	err = getUser.Login(user)
 	if err != nil {
 		if err == mgo.ErrNotFound {
-			return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "user not found"}
+			return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "invalid username"}
 		}
 	}
 	if !hash.CheckPasswordHash(requestPassword, user.Password) {
@@ -56,6 +56,7 @@ func (con *UserController) Signup(e echo.Context) (err error) {
 	}
 	if count == 0 {
 		user.Password, err = hash.HashPassword(user.Password)
+		user.CreateTime = time.Now().Unix()
 		if err != nil {
 			return
 		}
@@ -63,9 +64,9 @@ func (con *UserController) Signup(e echo.Context) (err error) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		return e.JSON(http.StatusOK, echo.Map{"message": "user created success"})
+		return e.JSON(http.StatusOK, echo.Map{"message": "success"})
 	} else {
-		return e.JSON(http.StatusOK, echo.Map{"message": "exist user"})
+		return e.JSON(http.StatusOK, echo.Map{"message": "exist"})
 	}
 }
 

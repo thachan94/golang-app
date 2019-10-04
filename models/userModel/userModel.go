@@ -1,7 +1,7 @@
 package userModel
 
 import (
-	"app/databases/mongodb"
+	"golang-app/databases/mongodb"
 
 	"gopkg.in/mgo.v2/bson"
 )
@@ -15,10 +15,11 @@ const (
 )
 
 type User struct {
-	ID       bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	UserName string        `json:"username" bson:"username"`
-	Password string        `json:"password" bson:"password"`
-	Token    string        `json:"token" bson"token"`
+	ID         bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	CreateTime int64         `json:"createTime" bson:"createTime"`
+	UserName   string        `json:"username" bson:"username"`
+	Password   string        `json:"password" bson:"password"`
+	Token      string        `json:"token" bson"token"`
 }
 type UserModel struct{}
 
@@ -32,7 +33,7 @@ func (m *UserModel) Login(user *User) error {
 
 func (m *UserModel) Signup(user *User) error {
 	collection := dbConn.Use(DBMgo, "user")
-	err := collection.Insert(bson.M{"username": user.UserName, "password": user.Password})
+	err := collection.Insert(bson.M{"username": user.UserName, "password": user.Password, "createTime": user.CreateTime})
 	return err
 }
 

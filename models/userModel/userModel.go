@@ -23,7 +23,8 @@ type User struct {
 }
 type UserModel struct{}
 
-var dbConn = mongodb.NewConn("mongodb://" + DBUser + ":" + DBPassword + "@" + Host + "/" + DBMgo)
+//var dbConn = mongodb.NewConn("mongodb://" + DBUser + ":" + DBPassword + "@" + Host + "/" + DBMgo)
+var dbConn = mongodb.NewConn("mongodb://" + Host + "/" + DBMgo)
 
 func (m *UserModel) Login(user *User) error {
 	collection := dbConn.Use(DBMgo, "user")

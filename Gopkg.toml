@@ -30,9 +30,10 @@
   name = "golang.org/x/crypto"
 
 [[constraint]]
-  name = "gopkg.in/labstack/echo.v4"
-  version = "4.1.10"
-
-[[constraint]]
   branch = "v2"
   name = "gopkg.in/mgo.v2"
+
+[[metadata.heroku]]
+  root-package = "github.com/heroku/go-getting-started"
+  go-version = "1.13"
+  install = [ "./..." ]
